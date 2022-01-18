@@ -1,7 +1,6 @@
 package com.eugenevdovin.marvelheroestestproject.service;
 
 import com.eugenevdovin.marvelheroestestproject.entity.CharacterEntity;
-import com.eugenevdovin.marvelheroestestproject.entity.ComicEntity;
 
 import java.util.List;
 

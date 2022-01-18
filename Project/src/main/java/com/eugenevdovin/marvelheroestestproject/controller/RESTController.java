@@ -1,5 +1,6 @@
 package com.eugenevdovin.marvelheroestestproject.controller;
 
+import com.eugenevdovin.marvelheroestestproject.wrapper.CharacterWrapper;
 import com.eugenevdovin.marvelheroestestproject.entity.CharacterEntity;
 import com.eugenevdovin.marvelheroestestproject.entity.ComicEntity;
 import com.eugenevdovin.marvelheroestestproject.service.CharacterService;
@@ -9,6 +10,7 @@ import com.eugenevdovin.marvelheroestestproject.service.RelationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -30,15 +32,21 @@ public class RESTController {
     //Внедрить загрузку/выгрузку изображений
 
     @GetMapping("/characters/{characterId}")
-    public CharacterEntity getCharacter(@PathVariable int characterId) {
-        CharacterEntity character = characterService.getCharacter(characterId);
-        if (character == null) System.out.println("Character not found");
-        return character;
+    public CharacterWrapper getCharacter(@PathVariable int characterId) {
+        CharacterEntity characterEntity = characterService.getCharacter(characterId);
+        CharacterWrapper characterWrapper = new CharacterWrapper(characterEntity);
+        if (characterEntity == null) System.out.println("Character not found");
+        return characterWrapper;
     }
 
     @GetMapping("/characters")
-    public List<CharacterEntity> getAllCharacters() {
-        return characterService.getAllCharacters();
+    public List<CharacterWrapper> getAllCharacters() {
+        List<CharacterWrapper> characterWrapperList = new ArrayList<>();
+        characterService.getAllCharacters().forEach(characterEntity -> {
+            CharacterWrapper characterWrapper = new CharacterWrapper(characterEntity);
+            characterWrapperList.add(characterWrapper);
+        });
+        return characterWrapperList;
     }
 
     @PostMapping("/characters")
@@ -77,17 +85,13 @@ public class RESTController {
 
 
 
-
-
     @PutMapping ("/characters/{characterId}/comics/{comicId}")
-    public CharacterEntity addComicForCharacter(@PathVariable int characterId, @PathVariable int comicId) {
-        return relationService.addComicForCharacter(characterId, comicId);
+    public void addComicForCharacter(@PathVariable int characterId, @PathVariable int comicId) {
+        relationService.addComicForCharacter(characterId, comicId);
     }
 
     @PutMapping ("/comics/{comicId}/characters/{characterId}")
-    public ComicEntity addCharacterInComic(@PathVariable int comicId, @PathVariable int characterId) {
-        return relationService.addCharacterForComic(comicId, characterId);
+    public void addCharacterToComic(@PathVariable int comicId, @PathVariable int characterId) {
+        relationService.addCharacterToComic(comicId, characterId);
     }
-
-
 }

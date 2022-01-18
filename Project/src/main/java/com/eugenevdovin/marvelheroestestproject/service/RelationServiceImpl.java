@@ -15,19 +15,17 @@ public class RelationServiceImpl implements RelationService {
 
     @Override
     @Transactional
-    public CharacterEntity addComicForCharacter(int characterId, int comicId) {
+    public void addComicForCharacter(int characterId, int comicId) {
         ComicEntity comicEntity = comicService.getComic(comicId);
         CharacterEntity characterEntity = characterService.getCharacter(characterId);
         characterEntity.addComicToCharacter(comicEntity);
-        return characterEntity;
     }
 
     @Override
     @Transactional
-    public ComicEntity addCharacterForComic(int comicId, int characterId) {
+    public void addCharacterToComic(int comicId, int characterId) {
         ComicEntity comicEntity = comicService.getComic(comicId);
         CharacterEntity characterEntity = characterService.getCharacter(characterId);
         comicEntity.addCharacterToComic(characterEntity);
-        return comicEntity;
     }
 }
