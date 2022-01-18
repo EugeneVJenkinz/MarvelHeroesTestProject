@@ -8,6 +8,7 @@ import com.eugenevdovin.marvelheroestestproject.service.ComicService;
 import com.eugenevdovin.marvelheroestestproject.service.PictureService;
 import com.eugenevdovin.marvelheroestestproject.service.RelationService;
 import com.eugenevdovin.marvelheroestestproject.wrapper.ComicWrapper;
+import com.eugenevdovin.marvelheroestestproject.wrapper.WrapExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,21 +29,20 @@ public class RESTController {
 
     //Допилить проверку на совпадения по именам + Сделать полноценную обработку исключений с выбросом HTTP ошибок
     //Внедрить загрузку/выгрузку изображений
+    //Постраничная загрузка
+    //Swagger
+    //Docker
 
     @GetMapping("/characters/{characterId}")
     public CharacterWrapper getCharacter(@PathVariable int characterId) {
         CharacterEntity characterEntity = characterService.getCharacter(characterId);
-        CharacterWrapper characterWrapper = new CharacterWrapper(characterEntity);
         if (characterEntity == null) System.out.println("Character not found");
-        return characterWrapper;
+        return WrapExecutor.getCharacterWrapper(characterEntity);
     }
 
     @GetMapping("/characters")
     public List<CharacterWrapper> getAllCharacters() {
-        List<CharacterWrapper> characterWrapperList = new ArrayList<>();
-        characterService.getAllCharacters().forEach(characterEntity
-                -> characterWrapperList.add(new CharacterWrapper(characterEntity)));
-        return characterWrapperList;
+        return WrapExecutor.getCharacterWrapperList(characterService.getAllCharacters());
     }
 
     @PostMapping("/characters")
@@ -54,17 +54,13 @@ public class RESTController {
     @GetMapping("/comics/{comicId}")
     public ComicWrapper getComic(@PathVariable int comicId) {
         ComicEntity comicEntity = comicService.getComic(comicId);
-        ComicWrapper comicWrapper = new ComicWrapper(comicEntity);
         if (comicEntity == null) System.out.println("Character not found");
-        return comicWrapper;
+        return WrapExecutor.getComicWrapper(comicEntity);
     }
 
     @GetMapping("/comics")
     public List<ComicWrapper> getAllComics() {
-        List<ComicWrapper> comicWrapperList = new ArrayList<>();
-        comicService.getAllComics().forEach(comicEntity ->
-                comicWrapperList.add(new ComicWrapper(comicEntity)));
-        return comicWrapperList;
+        return WrapExecutor.getComicWrapperList(comicService.getAllComics());
     }
 
     @PostMapping("/comics")
