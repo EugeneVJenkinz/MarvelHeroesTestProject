@@ -7,6 +7,7 @@ import com.eugenevdovin.marvelheroestestproject.service.CharacterService;
 import com.eugenevdovin.marvelheroestestproject.service.ComicService;
 import com.eugenevdovin.marvelheroestestproject.service.PictureService;
 import com.eugenevdovin.marvelheroestestproject.service.RelationService;
+import com.eugenevdovin.marvelheroestestproject.wrapper.ComicWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,10 +26,7 @@ public class RESTController {
     @Autowired
     RelationService relationService;
 
-    //Вопросы: как добавить связь между комиксами и персонажами в REST?
-    //Проверить/до(пере)работать метод сервиса по выгрузке информации на основе свзяей
-    //Допилить проверку на совпадения по именам
-    //Сделать полноценную обработку исключений с выбросом HTTP ошибок
+    //Допилить проверку на совпадения по именам + Сделать полноценную обработку исключений с выбросом HTTP ошибок
     //Внедрить загрузку/выгрузку изображений
 
     @GetMapping("/characters/{characterId}")
@@ -42,10 +40,8 @@ public class RESTController {
     @GetMapping("/characters")
     public List<CharacterWrapper> getAllCharacters() {
         List<CharacterWrapper> characterWrapperList = new ArrayList<>();
-        characterService.getAllCharacters().forEach(characterEntity -> {
-            CharacterWrapper characterWrapper = new CharacterWrapper(characterEntity);
-            characterWrapperList.add(characterWrapper);
-        });
+        characterService.getAllCharacters().forEach(characterEntity
+                -> characterWrapperList.add(new CharacterWrapper(characterEntity)));
         return characterWrapperList;
     }
 
@@ -56,19 +52,23 @@ public class RESTController {
     }
 
     @GetMapping("/comics/{comicId}")
-    public ComicEntity getComic(@PathVariable int comicId) {
-        ComicEntity comic = comicService.getComic(comicId);
-        if (comic == null) System.out.println("Character not found");//Сделать полноценную обработку исключений
-        return comic;
+    public ComicWrapper getComic(@PathVariable int comicId) {
+        ComicEntity comicEntity = comicService.getComic(comicId);
+        ComicWrapper comicWrapper = new ComicWrapper(comicEntity);
+        if (comicEntity == null) System.out.println("Character not found");
+        return comicWrapper;
     }
 
     @GetMapping("/comics")
-    public List<ComicEntity> getAllComics() {
-        return comicService.getAllComics();
+    public List<ComicWrapper> getAllComics() {
+        List<ComicWrapper> comicWrapperList = new ArrayList<>();
+        comicService.getAllComics().forEach(comicEntity ->
+                comicWrapperList.add(new ComicWrapper(comicEntity)));
+        return comicWrapperList;
     }
 
     @PostMapping("/comics")
-    public ComicEntity addNewCharacter(@RequestBody ComicEntity comicEntity) {
+    public ComicEntity addNewComic(@RequestBody ComicEntity comicEntity) {
         comicService.saveComic(comicEntity);
         return comicEntity;
     }
@@ -79,11 +79,20 @@ public class RESTController {
     }
 
     @GetMapping("/characters/{characterId}/comics")
-    public List<ComicEntity> getAllComicsForCharacter(@PathVariable int characterId) {
-        return comicService.getAllComicsForCharacter(characterId);
+    public List<ComicWrapper> getAllComicsForCharacter(@PathVariable int characterId) {
+        List<ComicWrapper> comicWrapperList = new ArrayList<>();
+        comicService.getAllComicsForCharacter(characterId).forEach(comicEntity
+                -> comicWrapperList.add(new ComicWrapper(comicEntity)));
+        return comicWrapperList;
     }
 
-
+    @GetMapping("/comics/{comicId}/characters")
+    public List<CharacterWrapper> getAllCharactersInComic(@PathVariable int comicId) {
+        List<CharacterWrapper> characterWrapperList = new ArrayList<>();
+        characterService.getAllCharactersFromComic(comicId).forEach(characterEntity
+                -> characterWrapperList.add(new CharacterWrapper(characterEntity)));
+        return characterWrapperList;
+    }
 
     @PutMapping ("/characters/{characterId}/comics/{comicId}")
     public void addComicForCharacter(@PathVariable int characterId, @PathVariable int comicId) {

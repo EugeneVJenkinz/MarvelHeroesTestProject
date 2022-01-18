@@ -7,6 +7,7 @@ import java.util.List;
 
 public class CharacterWrapper {
     private CharacterEntity characterEntity;
+    private int id;
     private String name;
     private List<String> comics;
 
@@ -14,7 +15,16 @@ public class CharacterWrapper {
         this.characterEntity = characterEntity;
         this.comics = new ArrayList<>();
         this.name = characterEntity.getName();
+        this.id = characterEntity.getId();
         characterEntity.getComics().forEach(comicEntity -> comics.add(comicEntity.getName()));
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
