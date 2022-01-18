@@ -22,6 +22,6 @@ CREATE TABLE pictures (
 CREATE TABLE characters_comics (
   character_id int NOT NULL,
   comic_id int NOT NULL,
-  FOREIGN KEY (character_id) REFERENCES marvelheroes_db.characters(character_id),
-  FOREIGN KEY (comic_id) REFERENCES marvelheroes_db.comics(comic_id)
+  FOREIGN KEY (character_id) REFERENCES characters(character_id),
+  FOREIGN KEY (comic_id) REFERENCES comics(comic_id)
 ) ;

@@ -21,11 +21,11 @@ public class CharacterEntityDAOImpl implements CharacterEntityDAO {
         Query query = session.createQuery("FROM CharacterEntity", CharacterEntity.class);
         return query.getResultList();
     }
-    //Not working yet
+
     @Override
     public CharacterEntity getCharacter(int id) {
         Session session = entityManager.unwrap(Session.class);
-        return null;
+        return session.get(CharacterEntity.class, id);
     }
 
     @Override
@@ -33,10 +33,11 @@ public class CharacterEntityDAOImpl implements CharacterEntityDAO {
         Session session = entityManager.unwrap(Session.class);
         session.saveOrUpdate(characterEntity);
     }
-    //Not working yet
+
     @Override
-    public void deleteCharacter(int id) {
+    public void deleteCharacter(CharacterEntity characterEntity) {
         Session session = entityManager.unwrap(Session.class);
+        session.delete(characterEntity);
     }
     //Not working yet
     @Override

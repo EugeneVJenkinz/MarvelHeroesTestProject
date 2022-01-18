@@ -9,6 +9,6 @@ public interface CharacterEntityDAO {
     List<CharacterEntity> getAllCharacters();
     CharacterEntity getCharacter(int id);
     void saveCharacter(CharacterEntity characterEntity);
-    void deleteCharacter(int id);
+    void deleteCharacter(CharacterEntity characterEntity);
     List<ComicEntity> getAllComicsForCharacter();
 }
