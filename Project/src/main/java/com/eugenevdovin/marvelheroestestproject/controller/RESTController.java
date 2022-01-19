@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/public")
@@ -30,13 +31,13 @@ public class RESTController {
     //Допилить проверку на совпадения по именам + Сделать полноценную обработку исключений с выбросом HTTP ошибок
     //Внедрить загрузку/выгрузку изображений
     //Постраничная загрузка
+    //Отдельные методы с маппингами sort by name, sort by id?
     //Swagger
     //Docker
 
     @GetMapping("/characters/{characterId}")
     public CharacterWrapper getCharacter(@PathVariable int characterId) {
         CharacterEntity characterEntity = characterService.getCharacter(characterId);
-        if (characterEntity == null) System.out.println("Character not found");
         return WrapExecutor.getCharacterWrapper(characterEntity);
     }
 

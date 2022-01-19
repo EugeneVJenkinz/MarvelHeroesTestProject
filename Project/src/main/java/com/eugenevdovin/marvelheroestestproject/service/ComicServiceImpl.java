@@ -1,9 +1,9 @@
 package com.eugenevdovin.marvelheroestestproject.service;
 
-import com.eugenevdovin.marvelheroestestproject.dao.CharacterEntityDAO;
-import com.eugenevdovin.marvelheroestestproject.dao.ComicEntityDAO;
+import com.eugenevdovin.marvelheroestestproject.repository.CharacterRepository;
 import com.eugenevdovin.marvelheroestestproject.entity.CharacterEntity;
 import com.eugenevdovin.marvelheroestestproject.entity.ComicEntity;
+import com.eugenevdovin.marvelheroestestproject.repository.ComicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,38 +13,38 @@ import java.util.List;
 @Service
 public class ComicServiceImpl implements ComicService {
     @Autowired
-    ComicEntityDAO comicEntityDAO;
+    CharacterRepository characterRepository;
     @Autowired
-    CharacterEntityDAO characterEntityDAO;
+    ComicRepository comicRepository;
 
     @Override
     @Transactional
     public List<ComicEntity> getAllComics() {
-        return comicEntityDAO.getAllComics();
+        return (List<ComicEntity>) comicRepository.findAll();
     }
 
     @Override
     @Transactional
     public ComicEntity getComic(int id) {
-        return comicEntityDAO.getComic(id);
+        return comicRepository.findById(id).get();
     }
 
     @Override
     @Transactional
     public void saveComic(ComicEntity comicEntity) {
-        comicEntityDAO.saveComic(comicEntity);
+        comicRepository.save(comicEntity);
     }
 
     @Override
     @Transactional
     public void deleteComic(int id) {
-        comicEntityDAO.deleteComic(comicEntityDAO.getComic(id));
+        comicRepository.deleteById(id);
     }
 
     @Override
     @Transactional
     public List<ComicEntity> getAllComicsForCharacter(int characterId) {
-        CharacterEntity character = characterEntityDAO.getCharacter(characterId);
+        CharacterEntity character = characterRepository.findById(characterId).get();
         return character.getComics();
     }
 }

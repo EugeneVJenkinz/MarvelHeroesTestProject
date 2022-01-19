@@ -1,6 +1,6 @@
 package com.eugenevdovin.marvelheroestestproject.service;
 
-import com.eugenevdovin.marvelheroestestproject.dao.PictureEntityDAO;
+import com.eugenevdovin.marvelheroestestproject.repository.PictureEntityDAO;
 import com.eugenevdovin.marvelheroestestproject.entity.PictureEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

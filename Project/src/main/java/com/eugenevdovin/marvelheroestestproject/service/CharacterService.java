@@ -3,6 +3,7 @@ package com.eugenevdovin.marvelheroestestproject.service;
 import com.eugenevdovin.marvelheroestestproject.entity.CharacterEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CharacterService {
     List<CharacterEntity> getAllCharacters();

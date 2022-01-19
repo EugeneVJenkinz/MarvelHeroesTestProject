@@ -4,15 +4,16 @@ import com.eugenevdovin.marvelheroestestproject.entity.CharacterEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class CharacterWrapper {
-    private CharacterEntity characterEntity;
+    private Optional<CharacterEntity> characterEntity;
     private int id;
     private String name;
     private List<String> comics;
 
     public CharacterWrapper(CharacterEntity characterEntity) {
-        this.characterEntity = characterEntity;
+        this.characterEntity = Optional.of(characterEntity);
         this.comics = new ArrayList<>();
         this.name = characterEntity.getName();
         this.id = characterEntity.getId();

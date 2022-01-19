@@ -1,6 +1,5 @@
-package com.eugenevdovin.marvelheroestestproject.dao;
+package com.eugenevdovin.marvelheroestestproject.repository;
 
-import com.eugenevdovin.marvelheroestestproject.entity.ComicEntity;
 import com.eugenevdovin.marvelheroestestproject.entity.PictureEntity;
 
 public interface PictureEntityDAO {
