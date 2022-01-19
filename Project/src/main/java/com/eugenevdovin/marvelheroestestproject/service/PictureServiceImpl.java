@@ -4,6 +4,7 @@ import com.eugenevdovin.marvelheroestestproject.repository.PictureEntityDAO;
 import com.eugenevdovin.marvelheroestestproject.entity.PictureEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PictureServiceImpl implements PictureService {
@@ -16,6 +17,7 @@ public class PictureServiceImpl implements PictureService {
     }
 
     @Override
+    @Transactional
     public void savePicture(PictureEntity pictureEntity) {
         pictureEntityDAO.savePicture(pictureEntity);
     }

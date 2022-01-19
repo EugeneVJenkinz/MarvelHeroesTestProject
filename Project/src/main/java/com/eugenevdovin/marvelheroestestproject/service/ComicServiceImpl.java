@@ -18,13 +18,11 @@ public class ComicServiceImpl implements ComicService {
     ComicRepository comicRepository;
 
     @Override
-    @Transactional
     public List<ComicEntity> getAllComics() {
         return (List<ComicEntity>) comicRepository.findAll();
     }
 
     @Override
-    @Transactional
     public ComicEntity getComic(int id) {
         return comicRepository.findById(id).get();
     }
@@ -42,7 +40,6 @@ public class ComicServiceImpl implements ComicService {
     }
 
     @Override
-    @Transactional
     public List<ComicEntity> getAllComicsForCharacter(int characterId) {
         CharacterEntity character = characterRepository.findById(characterId).get();
         return character.getComics();
