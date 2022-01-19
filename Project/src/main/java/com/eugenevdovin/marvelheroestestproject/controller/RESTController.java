@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/public")
@@ -30,8 +29,8 @@ public class RESTController {
 
     //Допилить проверку на совпадения по именам + Сделать полноценную обработку исключений с выбросом HTTP ошибок
     //Внедрить загрузку/выгрузку изображений
-    //Постраничная загрузка
-    //Отдельные методы с маппингами sort by name, sort by id?
+    //!Постраничная загрузка - paging and sorting
+    //!Отдельные методы с маппингами sort by name, sort by id - paging and sorting
     //Swagger
     //Docker
 
