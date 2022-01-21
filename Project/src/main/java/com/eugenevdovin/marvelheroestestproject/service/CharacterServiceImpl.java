@@ -45,8 +45,7 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
-    public List<CharacterEntity> getAllCharacters(Integer pageNo, Integer pageSize, String sortBy)
-    {
+    public List<CharacterEntity> getAllCharacters(Integer pageNo, Integer pageSize, String sortBy) {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 
         Page<CharacterEntity> pagedResult = characterRepository.findAll(paging);
@@ -55,6 +54,17 @@ public class CharacterServiceImpl implements CharacterService {
             return pagedResult.getContent();
         } else {
             return new ArrayList<CharacterEntity>();
+        }
+    }
+
+    @Override
+    public List<CharacterEntity> getListFilteredByNameContains(Integer pageNo, Integer pageSize, String sortBy, String name) {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        Page<CharacterEntity> pagedResult = characterRepository.findAllByNameContains(name, paging);
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<>();
         }
     }
 }

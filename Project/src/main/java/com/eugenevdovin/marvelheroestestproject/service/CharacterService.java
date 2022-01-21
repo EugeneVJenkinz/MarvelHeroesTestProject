@@ -10,4 +10,5 @@ public interface CharacterService {
     void saveCharacter(CharacterEntity characterEntity);
     List<CharacterEntity> getAllCharactersFromComic(int comicId);
     List<CharacterEntity> getAllCharacters(Integer pageNo, Integer pageSize, String sortBy);
+    List<CharacterEntity> getListFilteredByNameContains(Integer pageNo, Integer pageSize, String sortBy, String name);
 }
