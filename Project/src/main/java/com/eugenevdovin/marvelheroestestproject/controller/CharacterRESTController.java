@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/v1/public")
@@ -32,18 +33,24 @@ public class CharacterRESTController {
                 ? new ResponseEntity<>(WrapExecutor.getCharacterWrapperList(list), HttpStatus.OK)
                 : ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
     }
-    //Not working yet
+
     @GetMapping("/characters/filter")
     public ResponseEntity<?> getAllFilteredCharacters(
-            @RequestParam(defaultValue = "0") Integer pageNo,
-            @RequestParam(defaultValue = "10") Integer pageSize,
-            @RequestParam(defaultValue = "id") String sortBy,
-            @RequestParam(defaultValue = "name") String filterCriteria,
-            @RequestParam(defaultValue = "") String filterValue)
+            @RequestParam String filterCriteria,
+            @RequestParam String filterValue)
     {
-        List<CharacterEntity> list = characterService.getAllCharacters(pageNo, pageSize, sortBy);
-        return list != null && !list.isEmpty()
-                ? new ResponseEntity<>(WrapExecutor.getCharacterWrapperList(list), HttpStatus.OK)
+        List<CharacterEntity> list = characterService.getAllCharacters();
+        List<CharacterWrapper> wrappedList = WrapExecutor.getCharacterWrapperList(list);
+        if (filterCriteria.equals("name")) {
+            for (int i = 0; i < wrappedList.size(); i++) {
+                if (!wrappedList.get(i).getName().toLowerCase(Locale.ROOT).contains(filterValue.toLowerCase(Locale.ROOT))) {
+                    wrappedList.remove(wrappedList.get(i));
+                    i--;
+                }
+            }
+        }
+        return wrappedList != null
+                ? new ResponseEntity<>(wrappedList, HttpStatus.OK)
                 : ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
     }
 

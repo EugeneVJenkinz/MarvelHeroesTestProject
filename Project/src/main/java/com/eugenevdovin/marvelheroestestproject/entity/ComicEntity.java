@@ -20,8 +20,8 @@ public class ComicEntity {
             inverseJoinColumns = @JoinColumn(name = "character_id")
     )
     private List<CharacterEntity> characters;
-    @OneToMany(mappedBy = "comicEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<PictureEntity> pictures;
+    @OneToOne(mappedBy = "comicEntity", cascade = CascadeType.ALL)
+    private PictureEntity picture;
 
     public ComicEntity() {
     }
@@ -50,6 +50,14 @@ public class ComicEntity {
         this.characters = characters;
     }
 
+    public PictureEntity getPicture() {
+        return picture;
+    }
+
+    public void setPicture(PictureEntity picture) {
+        this.picture = picture;
+    }
+
     @Override
     public String toString() {
         return "ComicEntity{" +
@@ -61,5 +69,10 @@ public class ComicEntity {
     public void addCharacterToComic(CharacterEntity characterEntity) {
         if (characters == null) characters = new ArrayList<>();
         characters.add(characterEntity);
+    }
+
+    public boolean hasPicture() {
+        if (picture == null) return false;
+        else return true;
     }
 }
