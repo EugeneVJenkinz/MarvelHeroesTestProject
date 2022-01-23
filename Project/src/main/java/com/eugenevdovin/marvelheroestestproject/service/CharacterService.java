@@ -5,10 +5,11 @@ import com.eugenevdovin.marvelheroestestproject.entity.CharacterEntity;
 import java.util.List;
 
 public interface CharacterService {
-    List<CharacterEntity> getAllCharacters();
     CharacterEntity getCharacter(int id);
     void saveCharacter(CharacterEntity characterEntity);
-    List<CharacterEntity> getAllCharactersFromComic(int comicId);
+    List<CharacterEntity> getAllCharactersFromComic(Integer pageNo, Integer pageSize, String sortBy, Integer comicId);
     List<CharacterEntity> getAllCharacters(Integer pageNo, Integer pageSize, String sortBy);
-    List<CharacterEntity> getListFilteredByNameContains(Integer pageNo, Integer pageSize, String sortBy, String name);
+    List<CharacterEntity> getCharacterListFilteredByNameContains(Integer pageNo, Integer pageSize, String sortBy, String name);
+    void deleteCharacter(int characterId);
+    boolean existsById(int characterId);
 }

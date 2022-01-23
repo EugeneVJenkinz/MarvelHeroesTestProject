@@ -36,16 +36,6 @@ public class PictureServiceImpl implements PictureService {
     }
 
     @Override
-    public PictureEntity getPictureByComicId(int comicId) {
-        return comicRepository.findById(comicId).get().getPicture();
-    }
-
-    @Override
-    public PictureEntity getPicturesByCharacterId(int characterId) {
-        return characterRepository.findById(characterId).get().getPicture();
-    }
-
-    @Override
     @Transactional
     public ResponseEntity<Object> uploadPicture(MultipartFile file, Integer id, String entityType) throws IOException {
         if (file.getContentType().equals("image/jpeg") || file.getContentType().equals("image/png")) {
@@ -79,9 +69,17 @@ public class PictureServiceImpl implements PictureService {
             return new ResponseEntity<>(pictureEntity.getImageBytes(), HttpStatus.OK);
         }
         else if (entityType.equals("comic")) {
-            PictureEntity pictureEntity = this.getPicturesByCharacterId(id);
+            PictureEntity pictureEntity = this.getPicturesByComicId(id);
             return new ResponseEntity<>(pictureEntity.getImageBytes(), HttpStatus.OK);
         }
         else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    private PictureEntity getPicturesByComicId(Integer comicId) {
+        return comicRepository.findById(comicId).get().getPicture();
+    }
+
+    private PictureEntity getPicturesByCharacterId(int characterId) {
+        return characterRepository.findById(characterId).get().getPicture();
     }
 }

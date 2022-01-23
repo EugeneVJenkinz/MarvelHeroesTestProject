@@ -29,7 +29,7 @@ public class ImageRESTController {
     }
 
     @GetMapping(value = "/showImage", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<byte[]> getImageAsResponseEntity(@RequestParam Integer id, @RequestParam String entityType) {
+    public ResponseEntity<byte[]> getPictureAsResponseEntity(@RequestParam Integer id, @RequestParam String entityType) {
         return pictureService.getPictureAsResponseEntity(id, entityType);
     }
 }

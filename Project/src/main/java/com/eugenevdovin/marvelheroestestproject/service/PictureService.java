@@ -11,8 +11,6 @@ import java.util.List;
 
 public interface PictureService {
     PictureEntity getPicture(int id);
-    PictureEntity getPictureByComicId(int comicId);
-    PictureEntity getPicturesByCharacterId(int characterId);
     void savePicture(PictureEntity pictureEntity);
     ResponseEntity<Object> uploadPicture(MultipartFile file, Integer id, String entityType) throws IOException;
     ResponseEntity<byte[]> getPictureAsResponseEntity(Integer id, String entityType);

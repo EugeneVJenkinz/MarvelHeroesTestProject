@@ -23,11 +23,6 @@ public class CharacterServiceImpl implements CharacterService {
     ComicRepository comicRepository;
 
     @Override
-    public List<CharacterEntity> getAllCharacters() {
-        return (List<CharacterEntity>) characterRepository.findAll();
-    }
-
-    @Override
     public CharacterEntity getCharacter(int id) {
         return characterRepository.findById(id).get();
     }
@@ -39,9 +34,15 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
-    public List<CharacterEntity> getAllCharactersFromComic(int comicId) {
+    public List<CharacterEntity> getAllCharactersFromComic(Integer pageNo, Integer pageSize, String sortBy, Integer comicId) {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
         ComicEntity comic = comicRepository.findById(comicId).get();
-        return comic.getCharacters();
+        Page<CharacterEntity> pagedResult = characterRepository.findAllByComics(comic, paging);
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     @Override
@@ -53,12 +54,12 @@ public class CharacterServiceImpl implements CharacterService {
         if(pagedResult.hasContent()) {
             return pagedResult.getContent();
         } else {
-            return new ArrayList<CharacterEntity>();
+            return new ArrayList<>();
         }
     }
 
     @Override
-    public List<CharacterEntity> getListFilteredByNameContains(Integer pageNo, Integer pageSize, String sortBy, String name) {
+    public List<CharacterEntity> getCharacterListFilteredByNameContains(Integer pageNo, Integer pageSize, String sortBy, String name) {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
         Page<CharacterEntity> pagedResult = characterRepository.findAllByNameContains(name, paging);
         if(pagedResult.hasContent()) {
@@ -66,5 +67,16 @@ public class CharacterServiceImpl implements CharacterService {
         } else {
             return new ArrayList<>();
         }
+    }
+
+    @Override
+    @Transactional
+    public void deleteCharacter(int characterId) {
+        characterRepository.deleteById(characterId);
+    }
+
+    @Override
+    public boolean existsById(int characterId) {
+        return characterRepository.existsById(characterId);
     }
 }
