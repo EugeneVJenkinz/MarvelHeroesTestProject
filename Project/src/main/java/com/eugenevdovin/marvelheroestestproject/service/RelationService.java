@@ -1,8 +1,7 @@
 package com.eugenevdovin.marvelheroestestproject.service;
 
-import com.eugenevdovin.marvelheroestestproject.entity.CharacterEntity;
+import org.springframework.http.ResponseEntity;
 
 public interface RelationService {
-    void addComicForCharacter(int characterId, int comicId);
-    void addCharacterToComic(int comicId, int characterId);
+    ResponseEntity<Object> addRelation(int comicId, int characterId);
 }

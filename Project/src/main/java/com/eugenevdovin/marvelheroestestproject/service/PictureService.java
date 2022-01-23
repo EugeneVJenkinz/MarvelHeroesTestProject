@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.util.List;
 
 public interface PictureService {
-    PictureEntity getPicture(int id);
-    void savePicture(PictureEntity pictureEntity);
     ResponseEntity<Object> uploadPicture(MultipartFile file, Integer id, String entityType) throws IOException;
     ResponseEntity<byte[]> getPictureAsResponseEntity(Integer id, String entityType);
 }

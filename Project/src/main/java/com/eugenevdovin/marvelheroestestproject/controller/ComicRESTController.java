@@ -74,25 +74,11 @@ public class ComicRESTController {
 
     @PutMapping ("/comics/{comicId}/characters/{characterId}")
     public ResponseEntity<Object> addCharacterInComic(@PathVariable int characterId, @PathVariable int comicId) {
-        if (!characterService.existsById(characterId))
-            return new ResponseEntity<>("Character not found", HttpStatus.NOT_FOUND);
-        if (!comicService.existsById(comicId))
-            return new ResponseEntity<>("Comic not found", HttpStatus.NOT_FOUND);
-        relationService.addCharacterToComic(comicId, characterId);
-        if (comicService.getComic(comicId).getCharacters().contains(characterService.getCharacter(characterId)))
-            return new ResponseEntity<>("Character added in comic successfully", HttpStatus.OK);
-        else
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return relationService.addRelation(comicId, characterId);
     }
 
     @DeleteMapping("/comics/{comicId}")
     public ResponseEntity<Object> deleteComicById(@PathVariable int comicId) {
-        if (!comicService.existsById(comicId))
-            return new ResponseEntity<>("Comic not found", HttpStatus.NOT_FOUND);
-        comicService.deleteComic(comicId);
-        if (!comicService.existsById(comicId))
-            return new ResponseEntity<>("Comic was successfully deleted", HttpStatus.OK);
-        else
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return comicService.deleteComic(comicId);
     }
 }

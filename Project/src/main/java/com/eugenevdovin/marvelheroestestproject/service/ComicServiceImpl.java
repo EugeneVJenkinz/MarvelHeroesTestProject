@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,14 +37,14 @@ public class ComicServiceImpl implements ComicService {
 
     @Override
     @Transactional
-    public void deleteComic(int id) {
-        comicRepository.deleteById(id);
-    }
-
-    @Override
-    public List<ComicEntity> getAllComicsForCharacter(int characterId) {
-        CharacterEntity character = characterRepository.findById(characterId).get();
-        return character.getComics();
+    public ResponseEntity<Object> deleteComic(int comicId) {
+        if (!this.existsById(comicId))
+            return new ResponseEntity<>("Comic not found", HttpStatus.NOT_FOUND);
+        comicRepository.deleteById(comicId);
+        if (!this.existsById(comicId))
+            return new ResponseEntity<>("Comic was successfully deleted", HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @Override

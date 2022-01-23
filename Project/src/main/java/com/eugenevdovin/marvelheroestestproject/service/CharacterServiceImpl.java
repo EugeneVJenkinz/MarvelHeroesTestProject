@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,8 +73,14 @@ public class CharacterServiceImpl implements CharacterService {
 
     @Override
     @Transactional
-    public void deleteCharacter(int characterId) {
+    public ResponseEntity<Object> deleteCharacter(int characterId) {
+        if (!this.existsById(characterId))
+            return new ResponseEntity<>("Character not found", HttpStatus.NOT_FOUND);
         characterRepository.deleteById(characterId);
+        if (!this.existsById(characterId))
+            return new ResponseEntity<>("Character was successfully deleted", HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @Override

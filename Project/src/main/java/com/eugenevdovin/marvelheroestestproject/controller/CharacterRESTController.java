@@ -74,25 +74,11 @@ public class CharacterRESTController {
 
     @PutMapping ("/characters/{characterId}/comics/{comicId}")
     public ResponseEntity<Object> addComicForCharacter(@PathVariable int characterId, @PathVariable int comicId) {
-        if (!characterService.existsById(characterId))
-            return new ResponseEntity<>("Character not found", HttpStatus.NOT_FOUND);
-        if (!comicService.existsById(comicId))
-            return new ResponseEntity<>("Comic not found", HttpStatus.NOT_FOUND);
-        relationService.addComicForCharacter(characterId, comicId);
-        if (characterService.getCharacter(characterId).getComics().contains(comicService.getComic(comicId)))
-            return new ResponseEntity<>("Comic added for character successfully", HttpStatus.OK);
-        else
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return relationService.addRelation(comicId, characterId);
     }
 
     @DeleteMapping("/characters/{characterId}")
     public ResponseEntity<Object> deleteCharacterById(@PathVariable int characterId) {
-        if (!characterService.existsById(characterId))
-            return new ResponseEntity<>("Character not found", HttpStatus.NOT_FOUND);
-        characterService.deleteCharacter(characterId);
-        if (!characterService.existsById(characterId))
-            return new ResponseEntity<>("Character was successfully deleted", HttpStatus.OK);
-        else
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return characterService.deleteCharacter(characterId);
     }
 }
