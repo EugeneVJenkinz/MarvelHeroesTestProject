@@ -21,7 +21,7 @@ public class ImageRESTController {
     ComicService comicService;
 
     @PostMapping("/uploadImage")
-    public ResponseEntity<Object> fileUploadDB
+    public ResponseEntity<Object> uploadImage
             (@RequestParam MultipartFile file,
              @RequestParam Integer id,
              @RequestParam String entityType) throws IOException {
@@ -29,7 +29,7 @@ public class ImageRESTController {
     }
 
     @GetMapping(value = "/showImage", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<byte[]> getPictureAsResponseEntity(@RequestParam Integer id, @RequestParam String entityType) {
+    public ResponseEntity<byte[]> showImage(@RequestParam Integer id, @RequestParam String entityType) {
         return pictureService.getPictureAsResponseEntity(id, entityType);
     }
 }

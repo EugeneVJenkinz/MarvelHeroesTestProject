@@ -37,7 +37,7 @@ public class ComicRESTController {
     public ResponseEntity<Object> getAllFilteredComics(
             @RequestParam(defaultValue = "0") Integer pageNo,
             @RequestParam(defaultValue = "10") Integer pageSize,
-            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam String filterValue) {
         List<ComicEntity> list = comicService.getComicListFilteredByNameContains(pageNo, pageSize, sortBy, filterValue);
         return list != null && !list.isEmpty()
