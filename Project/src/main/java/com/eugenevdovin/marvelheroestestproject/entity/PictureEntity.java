@@ -1,12 +1,6 @@
 package com.eugenevdovin.marvelheroestestproject.entity;
 
-import javax.imageio.ImageIO;
 import javax.persistence.*;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 @Entity
 @Table(name = "pictures")

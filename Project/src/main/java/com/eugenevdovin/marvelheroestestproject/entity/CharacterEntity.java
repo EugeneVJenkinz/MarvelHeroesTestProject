@@ -46,10 +46,6 @@ public class CharacterEntity {
         return comics;
     }
 
-    public void setComics(List<ComicEntity> comics) {
-        this.comics = comics;
-    }
-
     public PictureEntity getPicture() {
         return picture;
     }

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-//Would be great add generics here
 @Component
 public class WrapExecutor {
     public static CharacterWrapper getCharacterWrapper(CharacterEntity characterEntity) {
