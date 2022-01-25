@@ -1,0 +1,1 @@
+if you want to link .jar container with sql container, change link to db from localhost:port to name of sql container. Dont forget use 1 network for this containers
