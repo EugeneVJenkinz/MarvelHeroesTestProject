@@ -21,6 +21,8 @@ public class CharacterRESTController {
     RelationService relationService;
     @Autowired
     ComicService comicService;
+    @Autowired
+    WrapExecutor wrapExecutor;
 
     @GetMapping("/characters")
     public ResponseEntity<Object> getAllCharacters(
@@ -29,7 +31,7 @@ public class CharacterRESTController {
             @RequestParam(defaultValue = "id") String sortBy) {
         List<CharacterEntity> list = characterService.getAllCharacters(pageNo, pageSize, sortBy);
         return list != null && !list.isEmpty()
-                ? new ResponseEntity<>(WrapExecutor.getCharacterWrapperList(list), HttpStatus.OK)
+                ? new ResponseEntity<>(wrapExecutor.getCharacterWrapperList(list), HttpStatus.OK)
                 : ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
     }
 
@@ -41,7 +43,7 @@ public class CharacterRESTController {
             @RequestParam String filterValue) {
         List<CharacterEntity> list = characterService.getCharacterListFilteredByNameContains(pageNo, pageSize, sortBy, filterValue);
         return list != null && !list.isEmpty()
-                ? new ResponseEntity<>(WrapExecutor.getCharacterWrapperList(list), HttpStatus.OK)
+                ? new ResponseEntity<>(wrapExecutor.getCharacterWrapperList(list), HttpStatus.OK)
                 : ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
     }
 
@@ -63,7 +65,7 @@ public class CharacterRESTController {
         if (list.isEmpty())
             return new ResponseEntity<>("This comics has no characters added yet", HttpStatus.OK);
         else
-            return new ResponseEntity<>(WrapExecutor.getCharacterWrapperList(list), HttpStatus.OK);
+            return new ResponseEntity<>(wrapExecutor.getCharacterWrapperList(list), HttpStatus.OK);
     }
 
     @PostMapping("/characters")

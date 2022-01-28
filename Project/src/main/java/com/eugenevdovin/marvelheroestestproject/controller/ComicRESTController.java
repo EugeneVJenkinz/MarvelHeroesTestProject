@@ -21,6 +21,8 @@ public class ComicRESTController {
     RelationService relationService;
     @Autowired
     CharacterService characterService;
+    @Autowired
+    WrapExecutor wrapExecutor;
 
     @GetMapping("/comics")
     public ResponseEntity<Object> getAllComics(
@@ -29,7 +31,7 @@ public class ComicRESTController {
             @RequestParam(defaultValue = "id") String sortBy) {
         List<ComicEntity> list = comicService.getAllComics(pageNo, pageSize, sortBy);
         return list != null && !list.isEmpty()
-                ? new ResponseEntity<>(WrapExecutor.getComicWrapperList(list), HttpStatus.OK)
+                ? new ResponseEntity<>(wrapExecutor.getComicWrapperList(list), HttpStatus.OK)
                 : ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
     }
 
@@ -41,7 +43,7 @@ public class ComicRESTController {
             @RequestParam String filterValue) {
         List<ComicEntity> list = comicService.getComicListFilteredByNameContains(pageNo, pageSize, sortBy, filterValue);
         return list != null && !list.isEmpty()
-                ? new ResponseEntity<>(WrapExecutor.getComicWrapperList(list), HttpStatus.OK)
+                ? new ResponseEntity<>(wrapExecutor.getComicWrapperList(list), HttpStatus.OK)
                 : ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
     }
 
@@ -49,7 +51,7 @@ public class ComicRESTController {
     public ResponseEntity<Object> getComic(@PathVariable int comicId) {
         if (!comicService.existsById(comicId)) return new ResponseEntity<>("Comic not found", HttpStatus.NOT_FOUND);
         ComicEntity comicEntity = comicService.getComic(comicId);
-        return new ResponseEntity<>(WrapExecutor.getComicWrapper(comicEntity), HttpStatus.OK);
+        return new ResponseEntity<>(wrapExecutor.getComicWrapper(comicEntity), HttpStatus.OK);
     }
 
     @GetMapping("/characters/{characterId}/comics")
@@ -63,7 +65,7 @@ public class ComicRESTController {
         if (list.isEmpty())
             return new ResponseEntity<>("This character has no comics added yet", HttpStatus.OK);
         else
-            return new ResponseEntity<>(WrapExecutor.getComicWrapperList(list), HttpStatus.OK);
+            return new ResponseEntity<>(wrapExecutor.getComicWrapperList(list), HttpStatus.OK);
     }
 
     @PostMapping("/comics")

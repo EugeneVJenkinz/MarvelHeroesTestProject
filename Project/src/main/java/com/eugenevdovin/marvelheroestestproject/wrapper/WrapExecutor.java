@@ -13,18 +13,18 @@ public class WrapExecutor {
         return new CharacterWrapper(characterEntity);
     }
 
-    public static ComicWrapper getComicWrapper(ComicEntity comicEntity) {
+    public ComicWrapper getComicWrapper(ComicEntity comicEntity) {
         return new ComicWrapper(comicEntity);
     }
 
-    public static List<CharacterWrapper> getCharacterWrapperList(List<CharacterEntity> characterEntityList) {
+    public List<CharacterWrapper> getCharacterWrapperList(List<CharacterEntity> characterEntityList) {
         List<CharacterWrapper> characterWrapperList = new ArrayList<>();
         characterEntityList.forEach(characterEntity
                 -> characterWrapperList.add(new CharacterWrapper(characterEntity)));
         return characterWrapperList;
     }
 
-    public static List<ComicWrapper> getComicWrapperList(List<ComicEntity> comicEntityList) {
+    public List<ComicWrapper> getComicWrapperList(List<ComicEntity> comicEntityList) {
         List<ComicWrapper> comicWrapperList = new ArrayList<>();
         comicEntityList.forEach(comicEntity
                 -> comicWrapperList.add(new ComicWrapper(comicEntity)));
