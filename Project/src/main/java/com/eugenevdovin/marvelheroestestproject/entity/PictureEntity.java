@@ -9,7 +9,8 @@ public class PictureEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "picture_id")
     private int id;
-    @Column(name = "picture_array")
+    @Lob
+    @Column(name = "picture_array", columnDefinition="LONGBLOB")
     private byte[] imageBytes;
     @OneToOne
     @JoinColumn(name = "character_id")
